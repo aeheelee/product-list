@@ -24,7 +24,6 @@ const ItemCard = ({ data }) => {
 
 const StyledCard = styled.li`
   overflow: hidden;
-  max-width: 320px;
 `;
 
 const StyledThumnailBox = styled.div`
