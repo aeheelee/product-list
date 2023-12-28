@@ -2,28 +2,17 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ItemBox from '../components/ItemBox';
 import CategoryBox from '../components/CategoryBox';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const MainContainer = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [productsData, setProductsData] = useState([]);
   const [selectCategoryId, setSelectCategoryId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleClickCategoryId = (categoryId) => {
     setSelectCategoryId(categoryId);
   };
-
-  console.log(selectCategoryId);
-  // useEffect(() => {
-  //   fetch('https://cozshopping.codestates-seb.link/api/v3/categories')
-  //     .then((res) => res.json())
-  //     .then((data) => setCategoriesData(data.product));
-
-  //   fetch(
-  //     'https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=10'
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => setProductsData(data.items));
-  // }, []);
 
   useEffect(() => {
     fetch('https://cozshopping.codestates-seb.link/api/v3/categories')
@@ -42,17 +31,16 @@ const MainContainer = () => {
       );
 
     const fetchProduct = async () => {
-      const url = `https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=12${
-        selectCategoryId > 0 ? `&category=${selectCategoryId}` : ''
-      }`;
+      try {
+        const url = `https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=12${`&category=${selectCategoryId}`}`;
 
-      const productsData = await fetch(url)
-        .then((res) => res.json())
-        .catch((error) => console.error(error));
-
-      // TODO: finally 추가
-
-      setProductsData(productsData.items);
+        const productsData = await fetch(url).then((res) => res.json());
+        setProductsData(productsData.items);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchProduct();
@@ -67,7 +55,7 @@ const MainContainer = () => {
         selectCategoryId={selectCategoryId}
         handleClickCategoryId={handleClickCategoryId}
       />
-      <ItemBox data={productsData} />
+      {isLoading ? <LoadingIndicator /> : <ItemBox data={productsData} />}
     </StyledBox>
   );
 };
