@@ -1,23 +1,19 @@
 import styled from 'styled-components';
 
 const ItemCard = ({ data }) => {
-  // const formatNumber = (num = 0) => Number(num | 0).toLocaleString('en');
+  const formatNumber = (num = 0) => Number(num | 0).toLocaleString('en');
 
   return (
-    <>
-      {data.map(({ id, image_url, title }) => (
-        <StyledCard key={id}>
-          <StyledThumnailBox>
-            <StyledThumnail src={image_url} alt={title} />
-          </StyledThumnailBox>
-          <StyledInformaiton>
-            {/* <StyledBrand>{data.brand_name}</StyledBrand> */}
-            <StyledText>{title}</StyledText>
-            {/* <StyledPrice>{formatNumber(data.price)} 원</StyledPrice> */}
-          </StyledInformaiton>
-        </StyledCard>
-      ))}
-    </>
+    <StyledCard>
+      <StyledThumnailBox>
+        <StyledThumnail src={data.imageUrl} alt={data.title} />
+      </StyledThumnailBox>
+      <StyledInformaiton>
+        {/* <StyledBrand>{data.brand_name}</StyledBrand> */}
+        <StyledText>{data.title}</StyledText>
+        <StyledPrice>{formatNumber(data.price)} 원</StyledPrice>
+      </StyledInformaiton>
+    </StyledCard>
   );
 };
 
@@ -61,10 +57,10 @@ const StyledText = styled.p`
   font-size: 12px;
 `;
 
-// const StyledPrice = styled.span`
-//   margin-top: 12px;
-//   font-size: 14px;
-//   font-weight: 500;
-// `;
+const StyledPrice = styled.span`
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+`;
 
 export default ItemCard;

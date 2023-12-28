@@ -1,34 +1,41 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
-const CategoryTab = ({ data }) => {
-  const [selectCategory, setSelectCategory] = useState('All');
-
-  const handleClickCategory = (category) => {
-    setSelectCategory(category);
-  };
-
+const CategoryTab = ({
+  id,
+  title,
+  imageUrl,
+  isActive,
+  handleClickCategoryId,
+}) => {
   return (
-    <>
-      {data.map(({ id, category, title }) => {
-        const isActive = selectCategory === category;
-        return (
-          <StyledButton
-            type="button"
-            $isActive={isActive}
-            key={id}
-            onClick={() => handleClickCategory(category)}
-          >
-            {title}
-          </StyledButton>
-        );
-      })}
-    </>
+    <StyledButton
+      type="button"
+      $isActive={isActive}
+      onClick={() => handleClickCategoryId(id)}
+    >
+      <Styledimg src={imageUrl} alt={title} />
+      {title}
+    </StyledButton>
   );
 };
 
 const StyledButton = styled.button`
-  font-weight: ${(props) => (props.$isAcive ? '700' : '400')};
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: ${({ $isActive }) => ($isActive ? 'pink' : 'white')};
+  font-weight: ${({ $isActive }) => ($isActive ? '700' : '400')};
+
+  & + & {
+    margin-left: 10px;
+  }
+`;
+
+const Styledimg = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
 `;
 
 export default CategoryTab;
