@@ -4,7 +4,7 @@ function LoadingIndicator() {
       className="loading-indicator"
       alt="now loading..."
       src="loading.gif"
-      style={{ margin: '1rem' }}
+      style={{ margin: '7rem' }}
     />
   );
 }

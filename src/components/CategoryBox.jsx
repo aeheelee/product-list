@@ -8,9 +8,7 @@ const CategoryBox = ({ data, selectCategoryId, handleClickCategoryId }) => {
       {data.map((item, index) => (
         <CategoryTab
           key={index}
-          id={item.id}
-          title={item.title}
-          imageUrl={item.imageUrl}
+          data={item}
           isActive={selectCategoryId === item.id}
           handleClickCategoryId={handleClickCategoryId}
         />
