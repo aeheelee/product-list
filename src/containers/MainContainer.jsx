@@ -4,6 +4,16 @@ import ItemBox from '../components/ItemBox';
 import CategoryBox from '../components/CategoryBox';
 import LoadingIndicator from '../components/LoadingIndicator';
 
+const fetchData = async (url, callback) => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    callback(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const MainContainer = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [productsData, setProductsData] = useState([]);
@@ -15,38 +25,44 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    fetch('https://cozshopping.codestates-seb.link/api/v3/categories')
-      .then((res) => res.json())
-      .then((data) =>
-        setCategoriesData([
-          {
-            category: 'ALL',
-            id: 0,
-            imageUrl:
-              'https://image.msscdn.net/display/images/2023/12/19/e2258aa5466346eb95c7738614534bdf.jpg',
-            title: '전체',
-          },
-          ...data.product,
-        ])
+    const fetchCategory = async () => {
+      fetchData(
+        'https://cozshopping.codestates-seb.link/api/v3/categories',
+        (data) => {
+          setCategoriesData([
+            {
+              category: 'ALL',
+              id: 0,
+              imageUrl:
+                'https://image.msscdn.net/display/images/2023/12/19/e2258aa5466346eb95c7738614534bdf.jpg',
+              title: '전체',
+            },
+            ...data.product,
+          ]);
+        }
       );
-
-    const fetchProduct = async () => {
-      try {
-        const url = `https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=12${`&category=${selectCategoryId}`}`;
-
-        const productsData = await fetch(url).then((res) => res.json());
-        setProductsData(productsData.items);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
     };
 
-    fetchProduct();
-  }, [selectCategoryId]);
+    const fetchProduct = async () => {
+      const url = `https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=12${`&category=${selectCategoryId}`}`;
+      fetchData(url, (data) => setProductsData(data.items));
+      setIsLoading(false);
+    };
 
-  console.log();
+    fetchCategory();
+    fetchProduct();
+
+    const intervalId = setInterval(fetchCategory, 5000);
+
+    setTimeout(() => {
+      clearInterval(intervalId);
+    }, 30000);
+
+    return () => {
+      // 컴포넌트 언마운트 시 타이머 정리
+      clearInterval(intervalId);
+    };
+  }, [selectCategoryId]);
 
   return (
     <StyledBox>
@@ -61,6 +77,7 @@ const MainContainer = () => {
 };
 
 const StyledBox = styled.div`
+  display: flex;
   max-width: 1310px;
   margin: 0 auto;
   padding: 60px 0 100px;

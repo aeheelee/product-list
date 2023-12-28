@@ -20,8 +20,14 @@ const CategoryBox = ({ data, selectCategoryId, handleClickCategoryId }) => {
 };
 
 const StyledBox = styled.div`
-  display: flex;
-  padding: 10px 0 20px;
+  width: 100px;
+  flex: 0 0 100px;
+  margin-right: 10px;
+
+  @media (min-width: 768px) {
+    width: 150px;
+    flex: 0 0 150px;
+  }
 `;
 
 export default CategoryBox;

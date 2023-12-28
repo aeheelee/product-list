@@ -9,9 +9,14 @@ const ItemCard = ({ data }) => {
         <StyledThumnail src={data.imageUrl} alt={data.title} />
       </StyledThumnailBox>
       <StyledInformaiton>
-        {/* <StyledBrand>{data.brand_name}</StyledBrand> */}
         <StyledText>{data.title}</StyledText>
-        <StyledPrice>{formatNumber(data.price)} 원</StyledPrice>
+        <StyledOriginalPrice aria-label="정상가격">
+          {formatNumber(data.price)} 원
+        </StyledOriginalPrice>
+        <StyledDiscount aria-label="할인율">
+          {data.discountPercentage}%
+        </StyledDiscount>
+        <StyledPrice>{formatNumber(data.discountPrice)} 원</StyledPrice>
       </StyledInformaiton>
     </StyledCard>
   );
@@ -42,11 +47,6 @@ const StyledInformaiton = styled.div`
   padding: 16px 12px 0px;
 `;
 
-// const StyledBrand = styled.p`
-//   font-size: 13px;
-//   font-weight: 700;
-// `;
-
 const StyledText = styled.p`
   display: block;
   overflow: hidden;
@@ -57,10 +57,24 @@ const StyledText = styled.p`
   font-size: 12px;
 `;
 
-const StyledPrice = styled.span`
+const StyledOriginalPrice = styled.del`
   margin-top: 12px;
   font-size: 14px;
   font-weight: 500;
+`;
+
+const StyledPrice = styled.span`
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const StyledDiscount = styled.span`
+  margin-left: 4px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: red;
 `;
 
 export default ItemCard;
