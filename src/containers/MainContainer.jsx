@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ItemBox from '../components/ItemBox';
 import CategoryBox from '../components/CategoryBox';
@@ -19,6 +20,7 @@ const MainContainer = () => {
   const [productsData, setProductsData] = useState([]);
   const [selectCategoryId, setSelectCategoryId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleClickCategoryId = (categoryId) => {
     setSelectCategoryId(categoryId);
@@ -44,9 +46,13 @@ const MainContainer = () => {
     };
 
     const fetchProduct = async () => {
+      setIsLoading(true);
+
       const url = `https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=12${`&category=${selectCategoryId}`}`;
       fetchData(url, (data) => setProductsData(data.items));
-      setIsLoading(false);
+      navigate(`?category=${selectCategoryId}`);
+
+      setTimeout(() => setIsLoading(false), 300);
     };
 
     fetchCategory();
@@ -62,7 +68,7 @@ const MainContainer = () => {
       // 컴포넌트 언마운트 시 타이머 정리
       clearInterval(intervalId);
     };
-  }, [selectCategoryId]);
+  }, [navigate, selectCategoryId]);
 
   return (
     <StyledBox>
