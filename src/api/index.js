@@ -5,6 +5,7 @@ export const fetchData = async (url, callback) => {
     callback(data); // 추출된 JSON 데이터가 callback 함수에 인수로 전달
   } catch (error) {
     console.error(error);
+    alert(error);
     throw error; // 예외를 다시 던지거나 적절한 방식으로 처리
   }
 };
