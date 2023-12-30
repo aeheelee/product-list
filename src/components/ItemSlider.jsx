@@ -81,7 +81,7 @@ const ItemSlider = ({ data }) => {
       </StyledArrowLeft>
       <StyledItemSlider ref={ref}>
         {data.map((item, index) => (
-          <ItemCard key={index} data={item} setStyle={{ width: '200px' }} />
+          <ItemCard key={index} data={item} $customStyle={{ width: '200px' }} />
         ))}
       </StyledItemSlider>
       <StyledArrowRight type="button" onClick={() => handleButtonClick('next')}>

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-const ItemCard = ({ data, setStyle = {} }) => {
+const ItemCard = ({ data, customStyle = {} }) => {
   const formatNumber = (num = 0) =>
     Number(num | 0)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return (
-    <StyledCard setStyle={setStyle}>
+    <StyledCard $customStyle={customStyle}>
       <StyledThumnailBox>
         <StyledThumnail src={data.imageUrl} alt={data.title} />
       </StyledThumnailBox>
@@ -28,7 +28,7 @@ const ItemCard = ({ data, setStyle = {} }) => {
 const StyledCard = styled.li`
   overflow: hidden;
 
-  ${({ setStyle }) => setStyle}
+  ${({ $customStyle }) => $customStyle}
 `;
 
 const StyledThumnailBox = styled.div`
