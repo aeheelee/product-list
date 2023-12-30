@@ -4,7 +4,12 @@ function LoadingIndicator() {
       className="loading-indicator"
       alt="now loading..."
       src="loading.gif"
-      style={{ margin: '7rem' }}
+      style={{
+        display: 'block',
+        width: '43px',
+        height: '11px',
+        margin: '100px auto',
+      }}
     />
   );
 }
