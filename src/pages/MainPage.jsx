@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ItemBox from '../components/ItemBox';
 import CategoryBox from '../components/CategoryBox';
 import RankingProudct from '../components/RankingProduct';
+import RecommendationProduct from '../components/RecommendationProduct';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchData } from '../api/index';
 
@@ -73,7 +74,8 @@ const MainContainer = () => {
         {isLoading ? <LoadingIndicator /> : <ItemBox data={productsData} />}
       </StyledBox>
 
-      <RankingProudct />
+      <RankingProudct selectCategoryId={selectCategoryId} />
+      <RecommendationProduct selectCategoryId={selectCategoryId} />
     </main>
   );
 };

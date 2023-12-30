@@ -53,15 +53,8 @@ const ItemSlider = ({ data }) => {
 
   const isCheckActiveButton = (direction) => {
     if (direction === 'prev') {
-      if (currentSlide === 0) {
-        alert('첫번째 아이템입니다');
-      }
-
       return currentSlide >= 1;
     } else if (direction === 'next') {
-      if (currentSlide === maxSlides) {
-        alert('마지막 아이템입니다');
-      }
       return currentSlide < maxSlides;
     }
 
@@ -76,16 +69,29 @@ const ItemSlider = ({ data }) => {
 
   return (
     <StyledItemBox>
-      <StyledArrowLeft type="button" onClick={() => handleButtonClick('prev')}>
-        &lt;
+      <StyledArrowLeft
+        type="button"
+        $disabled={currentSlide === 0}
+        onClick={() => handleButtonClick('prev')}
+      >
+        〈
       </StyledArrowLeft>
       <StyledItemSlider ref={ref}>
-        {data.map((item, index) => (
-          <ItemCard key={index} data={item} $customStyle={{ width: '200px' }} />
-        ))}
+        {data.length > 0 &&
+          data.map((item, index) => (
+            <ItemCard
+              key={index}
+              data={item}
+              customStyle={{ width: '200px' }}
+            />
+          ))}
       </StyledItemSlider>
-      <StyledArrowRight type="button" onClick={() => handleButtonClick('next')}>
-        &gt;
+      <StyledArrowRight
+        type="button"
+        $disabled={currentSlide === maxSlides}
+        onClick={() => handleButtonClick('next')}
+      >
+        〉
       </StyledArrowRight>
     </StyledItemBox>
   );
@@ -113,9 +119,16 @@ const StyledArrowLeft = styled.button`
   position: absolute;
   top: 29%;
   left: 10px;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 100%;
   font-size: 30px;
   font-weight: bold;
+  color: ${({ $disabled }) => ($disabled ? '#b2b2b2' : 'black')};
   line-height: 1;
   z-index: 1;
 `;
@@ -123,10 +136,17 @@ const StyledArrowLeft = styled.button`
 const StyledArrowRight = styled.button`
   position: absolute;
   top: 29%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   right: 10px;
-  color: white;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 100%;
   font-weight: bold;
   font-size: 30px;
+  color: ${({ $disabled }) => ($disabled ? '#b2b2b2' : 'black')};
   line-height: 1;
   z-index: 1;
 `;

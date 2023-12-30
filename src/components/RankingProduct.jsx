@@ -1,24 +1,30 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ItemSlider from './ItemSlider';
+import LoadingIndicator from './LoadingIndicator';
 import { fetchData } from '../api/index';
 
-const RankingProudct = () => {
+const RankingProudct = ({ selectCategoryId }) => {
   const [rankingData, setRankingData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const url = `https://cozshopping.codestates-seb.link/api/v3/ranking`;
+      setIsLoading(true);
+
+      const url = `https://cozshopping.codestates-seb.link/api/v3/ranking?${`&category=${selectCategoryId}`}`;
       fetchData(url, (data) => setRankingData(data.items));
+
+      setTimeout(() => setIsLoading(false), 300);
     };
 
     fetchProduct();
-  }, []);
+  }, [selectCategoryId]);
 
   return (
     <section>
       <StyledTitle>실시간 랭킹</StyledTitle>
-      <ItemSlider data={rankingData} />
+      {isLoading ? <LoadingIndicator /> : <ItemSlider data={rankingData} />}
     </section>
   );
 };

@@ -32,6 +32,7 @@ const StyledButton = styled.button`
 const Styledimg = styled.img`
   width: 30px;
   height: 30px;
+  border: 1px solid #aaa;
   border-radius: 100%;
 `;
 
