@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 const ItemCard = ({ data, setStyle = {} }) => {
-  const formatNumber = (num = 0) => Number(num | 0).toLocaleString('en');
+  const formatNumber = (num = 0) =>
+    Number(num | 0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return (
     <StyledCard setStyle={setStyle}>
@@ -11,12 +14,12 @@ const ItemCard = ({ data, setStyle = {} }) => {
       <StyledInformaiton>
         <StyledText>{data.title}</StyledText>
         <StyledOriginalPrice aria-label="정상가격">
-          {formatNumber(data.price)} 원
+          ￦{formatNumber(data.price)} 원
         </StyledOriginalPrice>
         <StyledDiscount aria-label="할인율">
           {data.discountPercentage}%
         </StyledDiscount>
-        <StyledPrice>{formatNumber(data.discountPrice)} 원</StyledPrice>
+        <StyledPrice>￦{formatNumber(data.discountPrice)} 원</StyledPrice>
       </StyledInformaiton>
     </StyledCard>
   );

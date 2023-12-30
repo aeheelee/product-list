@@ -3,7 +3,6 @@ import CategoryTab from './CategoryTab';
 
 const CategoryBox = ({ data, selectCategoryId, handleClickCategoryId }) => {
   return (
-    // TODO: handleClickCategoryId 이벤트 위임
     <StyledBox>
       {data.map((item, index) => (
         <CategoryTab

@@ -21,7 +21,7 @@ const StyledButton = styled.button`
   padding: 5px;
   margin-bottom: 5px;
   border-radius: 5px;
-  background-color: ${({ $isActive }) => ($isActive ? 'pink' : 'white')};
+  background-color: ${({ $isActive }) => ($isActive ? '#8561EB' : 'white')};
 
   @media (min-width: 768px) {
     width: 150px;
@@ -37,6 +37,7 @@ const Styledimg = styled.img`
 
 const StyledText = styled.span`
   margin-left: 10px;
+  color: ${({ $isActive }) => ($isActive ? 'white' : 'black')};
   font-weight: ${({ $isActive }) => ($isActive ? '700' : '400')};
 `;
 
