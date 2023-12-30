@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ItemBox from '../components/ItemBox';
 import CategoryBox from '../components/CategoryBox';
+import RankingProudct from '../components/RankingProduct';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchData } from '../api/index';
 
@@ -62,18 +63,22 @@ const MainContainer = () => {
   }, [navigate, selectCategoryId]);
 
   return (
-    <StyledBox>
-      <CategoryBox
-        data={categoriesData}
-        selectCategoryId={selectCategoryId}
-        handleClickCategoryId={handleClickCategoryId}
-      />
-      {isLoading ? <LoadingIndicator /> : <ItemBox data={productsData} />}
-    </StyledBox>
+    <main>
+      <StyledBox>
+        <CategoryBox
+          data={categoriesData}
+          selectCategoryId={selectCategoryId}
+          handleClickCategoryId={handleClickCategoryId}
+        />
+        {isLoading ? <LoadingIndicator /> : <ItemBox data={productsData} />}
+      </StyledBox>
+
+      <RankingProudct />
+    </main>
   );
 };
 
-const StyledBox = styled.main`
+const StyledBox = styled.section`
   display: flex;
   max-width: 1310px;
   margin: 0 auto;

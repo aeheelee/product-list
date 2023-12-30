@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const ItemCard = ({ data }) => {
+const ItemCard = ({ data, setStyle = {} }) => {
   const formatNumber = (num = 0) => Number(num | 0).toLocaleString('en');
 
   return (
-    <StyledCard>
+    <StyledCard setStyle={setStyle}>
       <StyledThumnailBox>
         <StyledThumnail src={data.imageUrl} alt={data.title} />
       </StyledThumnailBox>
@@ -24,6 +24,8 @@ const ItemCard = ({ data }) => {
 
 const StyledCard = styled.li`
   overflow: hidden;
+
+  ${({ setStyle }) => setStyle}
 `;
 
 const StyledThumnailBox = styled.div`
