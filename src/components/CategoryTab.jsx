@@ -1,12 +1,8 @@
 import styled from 'styled-components';
 
-const CategoryTab = ({ data, isActive, handleClickCategoryId }) => {
+const CategoryTab = ({ data, isActive }) => {
   return (
-    <StyledButton
-      type="button"
-      $isActive={isActive}
-      onClick={() => handleClickCategoryId(data.id)}
-    >
+    <StyledButton type="button" $isActive={isActive}>
       <Styledimg src={data.imageUrl} alt={data.title} />
       <StyledText $isActive={isActive}>{data.title}</StyledText>
     </StyledButton>

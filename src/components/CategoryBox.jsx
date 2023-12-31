@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import CategoryTab from './CategoryTab';
+import { Link } from 'react-router-dom';
 
-const CategoryBox = ({ data, selectCategoryId, handleClickCategoryId }) => {
+const CategoryBox = ({ data, selectCategoryId }) => {
   return (
     <StyledBox>
       {data.map((item, index) => (
-        <CategoryTab
-          key={index}
-          data={item}
-          isActive={selectCategoryId === item.id}
-          handleClickCategoryId={handleClickCategoryId}
-        />
+        <Link to={`/category/${item.id}`} key={item.id}>
+          <CategoryTab
+            key={index}
+            data={item}
+            isActive={selectCategoryId === item.id}
+          />
+        </Link>
       ))}
     </StyledBox>
   );

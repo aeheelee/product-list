@@ -3,7 +3,7 @@ function LoadingIndicator() {
     <img
       className="loading-indicator"
       alt="now loading..."
-      src="loading.gif"
+      src="../loading.gif"
       style={{
         display: 'block',
         width: '43px',
