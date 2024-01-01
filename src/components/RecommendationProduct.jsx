@@ -1,26 +1,15 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import styled, { css } from 'styled-components';
 import ItemSlider from './ItemSlider';
-import LoadingIndicator from './LoadingIndicator';
-import { fetchData } from '../api/index';
+import Loading from './Loading';
+import Error from './Error';
+import useFetch from '../hooks/useFetch.js';
 
-const RankingProudct = ({ selectCategoryId }) => {
-  const [recommendationData, setRecommendatioinData] = useState([]);
+const RankingProudct = ({ categoryId }) => {
   const [selectType, setSelectType] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      setIsLoading(true);
-
-      const url = `https://cozshopping.codestates-seb.link/api/v3/recommendation?${`&category=${selectCategoryId}&type=${selectType}`}`;
-      fetchData(url, (data) => setRecommendatioinData(data.items));
-
-      setTimeout(() => setIsLoading(false), 300);
-    };
-
-    fetchProduct();
-  }, [selectCategoryId, selectType]);
+  const [recommendationData, recommendationLoading, recommendationError] =
+    useFetch(`/recommendation?category=${categoryId}&type=${selectType}`);
 
   const buttonText = ['좋아요', '만족도'];
 
@@ -43,10 +32,12 @@ const RankingProudct = ({ selectCategoryId }) => {
           </Fragment>
         ))}
       </StyledButtonWrap>
-      {isLoading ? (
-        <LoadingIndicator />
+      {recommendationLoading ? (
+        <Loading />
+      ) : recommendationError ? (
+        <Error />
       ) : (
-        <ItemSlider data={recommendationData} />
+        <ItemSlider data={recommendationData?.items || []} />
       )}
     </section>
   );

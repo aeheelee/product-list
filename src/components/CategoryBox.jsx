@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import CategoryTab from './CategoryTab';
 import { Link } from 'react-router-dom';
 
-const CategoryBox = ({ data, selectCategoryId }) => {
+const CategoryBox = ({ data, categoryId }) => {
   return (
     <StyledBox>
       {data.map((item, index) => (
@@ -10,7 +10,7 @@ const CategoryBox = ({ data, selectCategoryId }) => {
           <CategoryTab
             key={index}
             data={item}
-            isActive={selectCategoryId === item.id}
+            isActive={categoryId === item.id}
           />
         </Link>
       ))}

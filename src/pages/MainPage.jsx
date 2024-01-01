@@ -1,74 +1,51 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ItemBox from '../components/ItemBox';
 import CategoryBox from '../components/CategoryBox';
 import RankingProudct from '../components/RankingProduct';
 import RecommendationProduct from '../components/RecommendationProduct';
-import LoadingIndicator from '../components/LoadingIndicator';
-import { fetchData } from '../api/index';
+import Loading from '../components/Loading';
+import Error from '../components/Error';
+import useFetch from '../hooks/useFetch.js';
+import { useParams } from 'react-router-dom';
 
-const MainContainer = () => {
-  const [categoriesData, setCategoriesData] = useState([]);
-  const [productsData, setProductsData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const MainPage = () => {
   const { categoryId } = useParams();
+  const [categories] = useFetch(`/categories`);
+  const [productsData, productsLoading, productsError] = useFetch(
+    `/products?page=1&limit=12&category=${categoryId}`
+  );
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      fetchData(
-        'https://cozshopping.codestates-seb.link/api/v3/categories',
-        (data) => {
-          setCategoriesData([
-            {
-              category: 'ALL',
-              id: 0,
-              imageUrl:
-                'https://image.msscdn.net/display/images/2023/12/19/e2258aa5466346eb95c7738614534bdf.jpg',
-              title: '전체',
-            },
-            ...data.product,
-          ]);
-        }
-      );
-    };
-
-    const fetchProduct = async () => {
-      setIsLoading(true);
-
-      const url = `https://cozshopping.codestates-seb.link/api/v3/products?page=1&limit=12${`&category=${categoryId}`}`;
-      fetchData(url, (data) => setProductsData(data.items));
-
-      setTimeout(() => setIsLoading(false), 300);
-    };
-
-    fetchCategory();
-    fetchProduct();
-
-    const intervalId = setInterval(fetchCategory, 5000);
-
-    setTimeout(() => {
-      clearInterval(intervalId);
-    }, 30000);
-
-    return () => {
-      // 컴포넌트 언마운트 시 타이머 정리
-      clearInterval(intervalId);
-    };
-  }, [categoryId]);
+  const categoriesData = categories
+    ? [
+        {
+          category: 'ALL',
+          id: 0,
+          imageUrl:
+            'https://image.msscdn.net/display/images/2023/12/19/e2258aa5466346eb95c7738614534bdf.jpg',
+          title: '전체',
+        },
+        ...categories.product,
+      ]
+    : null;
 
   return (
     <main>
       <StyledBox>
-        <CategoryBox
-          data={categoriesData}
-          selectCategoryId={Number(categoryId)}
-        />
-        {isLoading ? <LoadingIndicator /> : <ItemBox data={productsData} />}
+        {categoriesData && (
+          <CategoryBox data={categoriesData} categoryId={Number(categoryId)} />
+        )}
+        {productsLoading ? (
+          <Loading />
+        ) : productsError ? (
+          <Error />
+        ) : (
+          <ItemBox data={productsData?.items || []} />
+        )}
       </StyledBox>
 
-      <RankingProudct selectCategoryId={Number(categoryId)} />
-      <RecommendationProduct selectCategoryId={Number(categoryId)} />
+      <RankingProudct categoryId={Number(categoryId)} />
+      <RecommendationProduct categoryId={Number(categoryId)} />
     </main>
   );
 };
@@ -80,4 +57,4 @@ const StyledBox = styled.section`
   padding: 60px 0 100px;
 `;
 
-export default MainContainer;
+export default MainPage;
