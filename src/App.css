@@ -8,6 +8,7 @@ header {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   justify-content: space-around;
   flex-wrap: wrap;
+  z-index: 2;
 }
 
 .logo_container {
@@ -17,29 +18,29 @@ header {
   gap: 1rem;
 }
 
-.logo_container>img {
+.logo_container > img {
   width: 2.5rem;
 }
 
-header>label {
+header > label {
   display: flex;
   gap: 1rem;
   background: white;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
   border: 1px solid blue;
 }
 
-header>label>input {
+header > label > input {
   border: none;
 }
 
-header>label>input:active {
+header > label > input:active {
   outline: none;
 }
 
 main {
-  height: 92vh;
+  /* height: 100vh; */
 }
 
 footer {
@@ -52,7 +53,7 @@ footer {
   align-items: center;
 }
 
-footer>nav {
+footer > nav {
   display: flex;
   gap: 1rem;
 }
