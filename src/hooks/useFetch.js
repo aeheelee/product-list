@@ -12,10 +12,6 @@ const useFetch = (url) => {
     setIsLoading(true);
     fetch(endPoint)
       .then((res) => res.json())
-      .catch((error) => {
-        new Error(error);
-        setIsError(true);
-      })
       .then((data) => {
         setData(data);
         setTimeout(() => setIsLoading(false), 300); // 테스트를 위해 지연
